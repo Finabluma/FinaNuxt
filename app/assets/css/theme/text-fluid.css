@@ -1,0 +1,40 @@
+@theme {
+  /* ==================== */ /* Font Sizes (Fluid)   */
+  /* ==================== */ /* Small text */
+  --text-fluid-sm: clamp(1rem, 1.2vw, 1.5rem); /* 16–24px */
+  --text-fluid-base: clamp(1.125rem, 1.5vw, 1.625rem); /* 18–26px */
+  --text-fluid-body-lg: clamp(1.25rem, 1.8vw, 1.875rem); /* 20–30px */
+
+  /* Headings */
+  --text-fluid-h3: clamp(1.875rem, 3.5vw, 2.75rem); /* 30–44px */
+  --text-fluid-h2: clamp(2rem, 3.8vw, 3rem); /* 32–48px */
+  --text-fluid-h1: clamp(2.25rem, 4.5vw, 8.5rem); /* 36–56px */
+  --text-fluid-hero: clamp(3.25rem, 5.5vw, 5rem); /* 52–80px */
+
+  /* Optional heading scale */
+  --text-fluid-2xl: clamp(1.75rem, 3vw, 2.5rem);
+  --text-fluid-3xl: clamp(2rem, 3.5vw, 3rem);
+  --text-fluid-4xl: clamp(2.25rem, 4vw, 3.5rem);
+  --text-fluid-5xl: clamp(2.5rem, 4.5vw, 4.25rem);
+
+  /* ==================== */
+  /* Line Heights         */
+  /* ==================== */
+
+  /* Body text */
+  --leading-sm: 1.4;
+  --leading-base: 1.5;
+  --leading-body-lg: 1.5;
+
+  /* Headings */
+  --leading-h3: 1.2;
+  --leading-h2: 1.25;
+  --leading-h1: 1.2;
+  --leading-hero: 1.05;
+
+  /* Optional heading scale */
+  --leading-2xl: 1.25;
+  --leading-3xl: 1.2;
+  --leading-4xl: 1.15;
+  --leading-5xl: 1.1;
+}

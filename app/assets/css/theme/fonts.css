@@ -1,0 +1,8 @@
+@theme {
+  --font-coordinates: 'coordinates-variable', 'sans-serif';
+  --font-montserrat: 'montserrat', 'sans-serif';
+  --font-logic: 'logic-monospace', 'mono';
+  --font-cameo: 'nitti-typewriter-cameo', 'sans-serif';
+  --font-quicksand: 'quicksand', 'sans-serif';
+  --font-typewriter: 'secret-service-typewriter', 'sans-serif';
+}

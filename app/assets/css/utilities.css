@@ -1,0 +1,12 @@
+@import './utilities/text.css';
+@import './utilities/layout.css';
+/*------------------------------------*\
+    #CUSTOM
+\*------------------------------------*/
+@utility page-title {
+  @apply text-fluid-h1 leading-h2 font-coordinates mb-5 font-normal after:block after:h-1 after:w-5 after:bg-current after:content-[''];
+}
+
+@utility page-subtitle {
+  @apply font-logic px-2 text-xl capitalize;
+}

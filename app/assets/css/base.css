@@ -1,0 +1,38 @@
+@layer base {
+  body {
+    @apply font-coordinates f-base leading-base text-secondary dark:bg-primary-dark dark:text-secondary-dark text-pretty transition-colors duration-300;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-logic mb-4;
+  }
+
+  h1 {
+    @apply f-h1;
+  }
+
+  h2 {
+    @apply f-h2;
+  }
+
+  p {
+    @apply f-base my-4;
+  }
+
+  blockquote {
+    @apply text-fluid-body-lg;
+  }
+
+  a {
+    @apply transition-all;
+  }
+
+  #main .component + .component {
+    @apply mt-10;
+  }
+}

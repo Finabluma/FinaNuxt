@@ -1,0 +1,6 @@
+@layer components {
+  /* Global Header */
+  .global-header {
+    @apply l-center py-2;
+  }
+}

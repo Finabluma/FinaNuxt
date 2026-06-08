@@ -1,0 +1,56 @@
+/* Body text */
+@utility f-sm {
+  font-size: var(--text-fluid-sm);
+  line-height: var(--leading-sm);
+}
+
+@utility f-base {
+  @apply text-fluid-base leading-base;
+}
+
+@utility f-body-lg {
+  font-size: var(--text-fluid-body-lg);
+  line-height: var(--leading-body-lg);
+}
+
+/* Headings */
+@utility f-h3 {
+  font-size: var(--text-fluid-h3);
+  line-height: var(--leading-h3);
+}
+
+@utility f-h2 {
+  font-size: var(--text-fluid-h2);
+  line-height: var(--leading-h2);
+}
+
+@utility f-h1 {
+  font-size: var(--text-fluid-h1);
+  line-height: var(--leading-h1);
+}
+
+@utility f-hero {
+  font-size: var(--text-fluid-hero);
+  line-height: var(--leading-hero);
+}
+
+/* Optional heading scale */
+@utility f-2xl {
+  font-size: var(--text-fluid-2xl);
+  line-height: var(--leading-2xl);
+}
+
+@utility f-3xl {
+  font-size: var(--text-fluid-3xl);
+  line-height: var(--leading-3xl);
+}
+
+@utility f-4xl {
+  font-size: var(--text-fluid-4xl);
+  line-height: var(--leading-4xl);
+}
+
+@utility f-5xl {
+  font-size: var(--text-fluid-5xl);
+  line-height: var(--leading-5xl);
+}
