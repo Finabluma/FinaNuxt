@@ -3,4 +3,8 @@
 @import './base.css';
 @import './utilities.css';
 @import './components.css';
+
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* https://colorhunt.co/palette/1b3c53234c6a456882d2c1b6 */
+/* https://colorhunt.co/palette/fff6de8bdfddf48f68ffe394 */

@@ -4,7 +4,13 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  modules: ['@nuxtjs/sanity', '@nuxt/image', '@nuxtjs/i18n'],
+  modules: [
+    '@nuxtjs/sanity',
+    '@nuxt/image',
+    '@nuxtjs/i18n',
+    '@nuxt/icon',
+    '@pinia/nuxt'
+  ],
   css: ['./app/assets/css/main.css'],
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
@@ -40,7 +46,7 @@ export default defineNuxtConfig({
       { code: 'es', language: 'es-ES', name: 'Español' }
     ],
     strategy: 'prefix_except_default',
-    defaultLocale: 'en',
+    defaultLocale: 'es',
     vueI18n: '~/i18n/i18n.config.ts'
   },
   // This makes Tailwind work with Vite

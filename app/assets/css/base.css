@@ -1,6 +1,9 @@
 @layer base {
+  html {
+    @apply bg-secondary dark:bg-secondary-dark;
+  }
   body {
-    @apply font-coordinates f-base leading-base text-secondary dark:bg-primary-dark dark:text-secondary-dark text-pretty transition-colors duration-300;
+    @apply font-coordinates bg-primary f-base leading-base text-secondary dark:bg-secondary dark:text-secondary-dark text-pretty transition-colors duration-300;
   }
 
   h1,
