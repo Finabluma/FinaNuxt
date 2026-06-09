@@ -6,7 +6,7 @@ const { themeMode, toggleTheme } = useTheme()
 
 <template>
   <button
-    class="flex items-center justify-center rounded border-2 p-2 transition-colors duration-300"
+    class="flex items-center justify-center transition-colors duration-300"
     aria-label="Cambiar tema"
     @click="toggleTheme"
   >

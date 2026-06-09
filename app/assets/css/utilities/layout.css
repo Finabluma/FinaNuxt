@@ -11,7 +11,7 @@
 }
 
 @utility l-center {
-  @apply mx-auto box-content max-w-6xl px-[5vw];
+  @apply mx-auto box-content max-w-9/10 px-[5vw];
 }
 
 @utility l-cluster {

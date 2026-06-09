@@ -3,8 +3,13 @@
 @import './base.css';
 @import './utilities.css';
 @import './components.css';
+@plugin 'daisyui';
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+html {
+  @apply bg-orange dark:bg-navy-three;
+}
 
 /* https://colorhunt.co/palette/1b3c53234c6a456882d2c1b6 */
 /* https://colorhunt.co/palette/fff6de8bdfddf48f68ffe394 */

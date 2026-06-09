@@ -1,9 +1,6 @@
 @layer base {
-  html {
-    @apply bg-secondary dark:bg-secondary-dark;
-  }
   body {
-    @apply font-coordinates bg-primary f-base leading-base text-secondary dark:bg-secondary dark:text-secondary-dark text-pretty transition-colors duration-300;
+    @apply f-base font-coordinates leading-base bg-beige-two text-navy-one dark:bg-beige dark:text-navy-one text-pretty transition-colors duration-300;
   }
 
   h1,
@@ -12,7 +9,7 @@
   h4,
   h5,
   h6 {
-    @apply font-logic mb-4;
+    @apply font-quicksand mb-4;
   }
 
   h1 {
@@ -23,16 +20,30 @@
     @apply f-h2;
   }
 
-  p {
+  h3 {
+    @apply f-h3;
+  }
+
+  p,
+  ul,
+  ol {
     @apply f-base my-4;
   }
 
   blockquote {
-    @apply text-fluid-body-lg;
+    @apply py-1 sm:py-5;
+
+    p {
+      @apply f-body-lg font-logic border-l-navy-three/20 border-l-5 py-2 pl-6 sm:border-l-10 sm:pl-12;
+    }
   }
 
   a {
-    @apply transition-all;
+    @apply font-cameo text-orange dark:text-navy-three hover:text-navy-three dark:hover:text-navy-one underline underline-offset-2 transition-all hover:no-underline;
+  }
+
+  #main {
+    @apply p-8 sm:p-20;
   }
 
   #main .component + .component {

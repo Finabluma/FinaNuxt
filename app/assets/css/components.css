@@ -1,6 +1,6 @@
 @layer components {
   /* Global Header */
   .global-header {
-    @apply l-center py-2;
+    @apply l-center px-10 py-2 sm:px-22 sm:py-6;
   }
 }

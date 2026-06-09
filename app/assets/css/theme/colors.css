@@ -1,4 +1,15 @@
 @theme {
+  /* Light mode theme */
+  --color-beige-two: rgb(251, 245, 221);
+  --color-teal: rgb(139, 223, 221);
+  --color-orange: rgb(244, 143, 104);
+  --color-yellow: rgb(255, 227, 148);
+  /* Dark mode theme */
+  --color-navy-one: rgb(27, 60, 83);
+  --color-navy-two: rgb(35, 76, 106);
+  --color-navy-three: rgb(69, 104, 130);
+  --color-beige: rgb(231, 225, 177);
+
   /* Light Mode */
   --color-primary: oklch(98.4% 0.003 247.858);
   --color-secondary: oklch(27.9% 0.041 260.031);
