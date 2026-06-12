@@ -10,6 +10,7 @@
         aria-label="Navegación principal"
         class="flex justify-end"
       >
+        <LangSwitcher />
         <ThemeToogle />
       </div>
     </div>
