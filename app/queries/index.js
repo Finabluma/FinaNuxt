@@ -1,3 +1,3 @@
-import { heroSliderQuery } from './querySlider'
+import { homeQuery, heroSliderQuery } from './querySlider'
 
-export { heroSliderQuery }
+export { homeQuery, heroSliderQuery }

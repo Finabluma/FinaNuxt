@@ -8,7 +8,7 @@
       >Skip to content</a
     >
     <div class="grid-wrap">
-      <AppHeader />
+      <AppHeader class="fixed w-full" />
       <div class="wrap">
         <NuxtPage />
       </div>

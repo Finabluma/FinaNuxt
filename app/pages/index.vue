@@ -1,33 +1,42 @@
 <script setup>
-import { ref } from 'vue'
-import { useTextAnimator } from '~/composables/useTextAnimator'
+import { homeQuery } from '~/queries'
+const { locale } = useI18n()
+const sanity = useSanity()
 
-const el = ref(null)
+const { data, refresh } = await useAsyncData('home', () => {
+  return sanity.fetch(homeQuery, {
+    lang: locale.value
+  })
+})
 
-useTextAnimator(
-  el,
-  ['Design', 'Develop', 'Deploy'],
-  'typewriter' // 👈 cambia a 'rotate'
-)
+watch(locale, () => {
+  refresh()
+})
 </script>
 
 <template>
   <div>
-    <h1 class="mx-auto w-3/12 border text-center text-4xl">
-      <span class="mr-2">We build</span>
-      <span ref="el"></span>
-      <span
-        v-if="'typewriter'"
-        class="cursor"
-        >|</span
-      >
-
-      <span
-        v-else
-        class="cursor-dot"
-      ></span>
-    </h1>
     <main id="main">
+      <h1>{{ data.title }}</h1>
+      <div
+        v-for="component in data.blockComponents"
+        :key="component._key"
+      >
+        <HeroBlock
+          v-if="component._type === 'heroBlockType'"
+          v-bind="component"
+        />
+
+        <div
+          v-if="component._type === 'sliderType'"
+          v-bind="component"
+        >
+          <pre>{{ component }}</pre>
+        </div>
+      </div>
+
+      <br />
+      <br />
       <h1>HTML Ipsum Presents</h1>
       <p>
         <strong>Pellentesque habitant morbi tristique</strong> senectus et netus
@@ -72,7 +81,7 @@ useTextAnimator(
   </div>
 </template>
 
-<style scoped>
+<!-- <style scoped>
 .cursor {
   animation: blink 1s infinite;
 }
@@ -82,4 +91,4 @@ useTextAnimator(
     opacity: 0;
   }
 }
-</style>
+</style> -->
