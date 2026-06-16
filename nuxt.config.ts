@@ -50,6 +50,24 @@ export default defineNuxtConfig({
     defaultLocale: 'es',
     vueI18n: '~/i18n/i18n.config.ts'
   },
+  image: {
+    dir: 'assets/images',
+    provider: 'sanity',
+    sanity: {
+      projectId: process.env.SANITY_PROJECT_ID
+    },
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      '2xl': 1336,
+      '3xl': 1536
+    },
+    format: ['webp'],
+    densities: [1, 2]
+  },
   // This makes Tailwind work with Vite
   vite: {
     optimizeDeps: {
@@ -58,7 +76,11 @@ export default defineNuxtConfig({
         '@vue/devtools-kit',
         'react-compiler-runtime',
         'react',
-        'react-dom'
+        'react-dom',
+        'react-compiler-runtime', // CJS
+        'gsap',
+        'gsap/TextPlugin',
+        'swiper/element/bundle'
       ]
     },
     plugins: [tailwindcss()],

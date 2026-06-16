@@ -7,14 +7,7 @@ export const homeQuery = groq`
       _type,
       _key    
     },
-    language,
-    // "_translations": *[
-    //   _type == "translation.metadata" &&
-    //   references(^._id)
-    // ][0].translations[].value->{
-    //   _id,
-    //   language
-    // }
+    language
   }
 `
 
