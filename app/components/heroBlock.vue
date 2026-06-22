@@ -30,11 +30,12 @@ watch(() => props.textSequence, runAnimation, { deep: true })
 </script>
 
 <template>
-  <h1>
-    <span class="mr-2">{{ prefix }}</span>
-
-    <span ref="el"></span>
-
+  <h1 class="f-body-lg px-10 py-36">
+    <span>{{ prefix }}</span>
+    <span
+      ref="el"
+      class="ml-2"
+    ></span>
     <span
       v-if="textSequence.mode === 'typewriter'"
       class="cursor"

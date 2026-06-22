@@ -17,7 +17,7 @@ watch(locale, () => {
 <template>
   <div>
     <main id="main">
-      <h1>{{ data.title }}</h1>
+      <h1 class="sr-only">{{ data.title }}</h1>
       <div
         v-for="component in data.blockComponents"
         :key="component._key"
@@ -32,56 +32,6 @@ watch(locale, () => {
           v-bind="component"
         >
           <SlideShow :slides="component.slides" />
-          <!-- <ClientOnly>
-            <SwiperContainer
-              :height="450"
-              :auto-height="false"
-              :modules="[SwiperAutoplay, SwiperFreeMode, SwiperPagination]"
-              :slides-per-view="1"
-              :space-between="0"
-              :autoplay="{
-                delay: 5000,
-                disableOnInteraction: false
-              }"
-              :speed="1000"
-              :free-mode="true"
-              :pagination="{ clickable: true }"
-              :loop="true"
-              :breakpoints="{
-                320: {
-                  slidesPerView: 1,
-                  spaceBetween: 0
-                },
-                640: {
-                  slidesPerView: 1,
-                  spaceBetween: 0
-                },
-                1024: {
-                  slidesPerView: 1,
-                  spaceBetween: 0
-                }
-              }"
-            >
-              <SwiperSlide
-                v-for="item in component.slides"
-                :key="item._key"
-              >
-                <pre>{{ item.content }}</pre>
-                <pre>{{ item.link }}</pre>
-                <ElementsMediaImageItem
-                  :src="item.image.asset._ref"
-                  :alt="item.image.alt"
-                  sizes="xs:100vw"
-                  :modifiers="{
-                    crop: item.image.crop,
-                    hotspot: item.image.hotspot,
-                    q: 80
-                  }"
-                  fit="contain"
-                />
-              </SwiperSlide>
-            </SwiperContainer>
-          </ClientOnly> -->
         </div>
       </div>
 

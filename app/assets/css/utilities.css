@@ -10,3 +10,19 @@
 @utility page-subtitle {
   @apply font-logic px-2 text-xl capitalize;
 }
+
+@utility btn {
+  @apply font-quicksand inline-flex cursor-pointer items-center justify-center gap-1 border-0 px-2 py-1.5 no-underline transition-all;
+}
+
+@utility btn-primary {
+  @apply bg-teal text-navy-one hover:hue-rotate-30;
+}
+
+@utility btn-secondary {
+  @apply bg-orange text-beige-two hover:brightness-95;
+}
+
+@utility btn-outline {
+  @apply border-teal text-teal hover:bg-teal border bg-transparent;
+}

@@ -1,6 +1,6 @@
 @layer base {
   body {
-    @apply f-base font-coordinates leading-base bg-beige-two text-navy-one dark:bg-beige dark:text-navy-one text-pretty transition-colors duration-300;
+    @apply f-base font-coordinates leading-base text-navy-one dark:bg-beige dark:text-navy-one bg-white text-pretty transition-colors duration-300;
   }
 
   h1,

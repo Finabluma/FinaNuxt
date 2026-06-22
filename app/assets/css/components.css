@@ -1,6 +1,49 @@
 @layer components {
   /* Global Header */
   .global-header {
-    @apply l-center px-10 py-2 sm:px-22 sm:py-6;
+    @apply l-center px-10 sm:px-22;
+  }
+
+  .header-item {
+    @apply f-sm inline-flex h-2 min-w-10 items-center justify-center rounded-sm py-2.5 transition-all;
+  }
+
+  /* =========================
+     GHOST (links suaves)
+     ========================= */
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-navy-one);
+  }
+
+  .btn-ghost:hover {
+    background: rgba(139, 223, 221, 0.15);
+  }
+
+  /* =========================
+     DARK MODE ADJUSTMENTS
+     ========================= */
+  .dark .btn-primary {
+    background: var(--color-teal);
+    color: var(--color-navy-one);
+  }
+
+  .dark .btn-secondary {
+    background: var(--color-orange);
+    color: var(--color-navy-one);
+  }
+
+  .dark .btn-ghost {
+    color: var(--color-beige);
+  }
+
+  .dark .btn-outline {
+    border-color: var(--color-beige);
+    color: var(--color-beige);
+  }
+
+  .dark .btn-outline:hover {
+    background: var(--color-beige);
+    color: var(--color-navy-one);
   }
 }
