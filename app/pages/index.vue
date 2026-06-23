@@ -1,40 +1,30 @@
 <script setup>
-import { homeQuery } from '~/queries'
 const { locale } = useI18n()
-const sanity = useSanity()
-
-const { data, refresh } = await useAsyncData('home', () => {
-  return sanity.fetch(homeQuery, {
-    lang: locale.value
-  })
-})
-
-watch(locale, () => {
-  refresh()
-})
+const homeStore = useHomeStore()
+await callOnce(() => homeStore.fetchHome(locale.value))
 </script>
 
 <template>
   <div>
     <main id="main">
-      <h1 class="sr-only">{{ data.title }}</h1>
+      <h1 class="sr-only">{{ homeStore?.data?.title }}</h1>
       <div
-        v-for="component in data.blockComponents"
-        :key="component._key"
+        v-for="block in homeStore?.data?.sections"
+        :key="block?._key"
       >
-        <HeroBlock
-          v-if="component._type === 'heroBlockType'"
-          v-bind="component"
+        <TextSequence
+          v-if="block?._type === 'heroBlockType'"
+          v-bind="block"
         />
-
-        <div
-          v-if="component._type === 'sliderType'"
-          v-bind="component"
-        >
-          <SlideShow :slides="component.slides" />
-        </div>
+        <SingleImage
+          v-if="block?._type === 'heroSingleType'"
+          v-bind="block"
+        />
+        <SlideShow
+          v-if="block?._type === 'heroSliderType'"
+          :slides="block.slides"
+        />
       </div>
-
       <br />
       <br />
       <h1>HTML Ipsum Presents</h1>
@@ -79,4 +69,5 @@ watch(locale, () => {
       </blockquote>
     </main>
   </div>
+  <!-- <pre>{{ homeStore.data }}</pre> -->
 </template>

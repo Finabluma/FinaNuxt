@@ -16,13 +16,13 @@
 }
 
 @utility btn-primary {
-  @apply bg-teal text-navy-one hover:hue-rotate-30;
+  @apply bg-teal text-navy-one dark:bg-beige-two dark:text-navy-one dark:hover:bg-beige hover:hue-rotate-30;
 }
 
 @utility btn-secondary {
-  @apply bg-orange text-beige-two hover:brightness-95;
+  @apply bg-orange text-beige-two dark:bg-beige dark:text-navy-three hover:brightness-90;
 }
 
 @utility btn-outline {
-  @apply border-teal text-teal hover:bg-teal border bg-transparent;
+  @apply outline-navy-one text-navy-one hover:bg-orange hover:outline-beige hover:text-beige dark:outline-navy-one dark:text-navy-one bg-transparent outline-1;
 }

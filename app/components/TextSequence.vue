@@ -34,7 +34,7 @@ watch(() => props.textSequence, runAnimation, { deep: true })
     <span>{{ prefix }}</span>
     <span
       ref="el"
-      class="ml-2"
+      class="ml-1"
     ></span>
     <span
       v-if="textSequence.mode === 'typewriter'"

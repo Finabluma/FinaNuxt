@@ -1,7 +1,12 @@
 export const homeQuery = groq`
   *[_type == "homeType" && language == $lang][0]{
-    "id":_id,
+    _id,
     title,
+    sections[]{
+      _type,
+      _key,
+      ...
+    },
     blockComponents[]{
       ...,
       _type,

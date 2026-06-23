@@ -2,48 +2,29 @@
   /* Global Header */
   .global-header {
     @apply l-center px-10 sm:px-22;
+
+    .header-item {
+      @apply f-sm inline-flex h-2 min-w-10 items-center justify-center rounded-sm py-2.5 transition-all;
+    }
   }
 
-  .header-item {
-    @apply f-sm inline-flex h-2 min-w-10 items-center justify-center rounded-sm py-2.5 transition-all;
-  }
+  .slide-item {
+    @apply relative overflow-hidden;
 
-  /* =========================
-     GHOST (links suaves)
-     ========================= */
-  .btn-ghost {
-    background: transparent;
-    color: var(--color-navy-one);
-  }
+    .slide-inner {
+      @apply relative;
 
-  .btn-ghost:hover {
-    background: rgba(139, 223, 221, 0.15);
-  }
+      .overlay {
+        @apply bg-navy-one/10 absolute inset-0 z-10 opacity-0;
+      }
 
-  /* =========================
-     DARK MODE ADJUSTMENTS
-     ========================= */
-  .dark .btn-primary {
-    background: var(--color-teal);
-    color: var(--color-navy-one);
-  }
+      .image {
+        @apply block;
+      }
 
-  .dark .btn-secondary {
-    background: var(--color-orange);
-    color: var(--color-navy-one);
-  }
-
-  .dark .btn-ghost {
-    color: var(--color-beige);
-  }
-
-  .dark .btn-outline {
-    border-color: var(--color-beige);
-    color: var(--color-beige);
-  }
-
-  .dark .btn-outline:hover {
-    background: var(--color-beige);
-    color: var(--color-navy-one);
+      .content {
+        @apply absolute bottom-0 z-20 w-full translate-y-1/2 opacity-0;
+      }
+    }
   }
 }
