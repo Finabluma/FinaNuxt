@@ -21,14 +21,19 @@ export const useHomeStore = defineStore('home', {
       try {
         const result = await sanity.fetch(homeQuery, { lang })
 
-        // 👇 opcional: normalizar datos
-        this.data = {
+        const normalized = {
           ...result,
           sections: result?.sections || []
         }
+
+        this.data = normalized
+
+        // ✅ ESTO ES LO QUE TE FALTA
+        return normalized
       } catch (err) {
         this.error = err
         console.error('Error fetching home:', err)
+        return null
       } finally {
         this.loading = false
       }
