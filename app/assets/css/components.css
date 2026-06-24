@@ -8,23 +8,20 @@
     }
   }
 
-  .slide-item {
-    @apply relative overflow-hidden;
-
-    .slide-inner {
-      @apply relative;
-
-      .overlay {
-        @apply bg-navy-one/10 absolute inset-0 z-10 opacity-0;
-      }
-
-      .image {
-        @apply block;
-      }
-
-      .content {
-        @apply absolute bottom-0 z-20 w-full translate-y-1/2 opacity-0;
-      }
-    }
-  }
+  /* .slide .gallery {
+    @apply h-[10vh];
+  } */
 }
+
+/* <ElementsMediaImageItem
+              :src="item.image.asset._ref"
+              :alt="item.image.alt"
+              sizes="xs:100vw"
+              :modifiers="{
+                crop: item.image.crop,
+                hotspot: item.image.hotspot,
+                q: 80
+              }"
+              fit="cover"
+              format="webp"
+            /> */

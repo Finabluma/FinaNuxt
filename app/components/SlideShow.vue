@@ -1,49 +1,165 @@
 <script setup>
+import { onMounted, nextTick, ref } from 'vue'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
 const props = defineProps({
   slides: Array,
   title: String
 })
-</script>
-<template>
-  <div class="slide">
-    <h2 class="mb-4 text-xl font-bold">
-      {{ title }}
-    </h2>
 
-    <swiper-container
-      class="gallery"
-      :height="300"
-      :auto-height="false"
-      :slides-per-view="1"
-      :space-between="5"
-      :loop="true"
-      :pagination="{ clickable: true }"
-      :speed="900"
-      :breakpoints="{
-        320: {
-          slidesPerView: 1,
-          spaceBetween: 10
-        },
-        1024: {
-          slidesPerView: 1,
-          spaceBetween: 10
+const container = ref(null)
+const track = ref(null)
+
+onMounted(() => {
+  nextTick(() => {
+    const containerEl = container.value
+    const trackEl = track.value
+
+    if (!containerEl || !trackEl) return
+
+    const slides = trackEl.querySelectorAll('.slide-item')
+
+    // 🔥 estado inicial (CLAVE)
+    gsap.set('.content-card', { opacity: 0, y: 10 })
+    gsap.set('.stagger-item', { opacity: 0, y: 10 })
+
+    const getScrollDistance = () => trackEl.scrollWidth - window.innerWidth
+
+    // 🚀 horizontal scroll
+    const tl = gsap.to(trackEl, {
+      x: () => -getScrollDistance(),
+      ease: 'none',
+      scrollTrigger: {
+        trigger: containerEl,
+        start: 'top top',
+        end: () => '+=' + trackEl.scrollWidth,
+        scrub: 1,
+        pin: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true
+      }
+    })
+
+    // 🧲 snap
+    ScrollTrigger.create({
+      trigger: containerEl,
+      start: 'top top',
+      end: () => '+=' + trackEl.scrollWidth,
+      snap: {
+        snapTo: 1 / (slides.length - 1),
+        duration: 0.4,
+        ease: 'power2.out'
+      }
+    })
+
+    // 🎥 parallax ligero
+    slides.forEach((slide) => {
+      const image = slide.querySelector('img')
+      if (!image) return
+
+      gsap.to(image, {
+        x: -40,
+        scale: 1.08,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: slide,
+          containerAnimation: tl,
+          start: 'left right',
+          end: 'right left',
+          scrub: true
         }
-      }"
+      })
+    })
+  })
+})
+
+/* =========================
+   ✨ HOVER ENTER
+========================= */
+function onEnter(e) {
+  const slide = e.currentTarget
+
+  const card = slide.querySelector('.content-card')
+  const items = slide.querySelectorAll('.stagger-item')
+  const image = slide.querySelector('img')
+
+  gsap.killTweensOf([card, items, image])
+
+  gsap.to(card, {
+    opacity: 1,
+    y: 0,
+    duration: 0.25,
+    ease: 'power2.out'
+  })
+
+  gsap.to(items, {
+    opacity: 1,
+    y: 0,
+    duration: 0.4,
+    stagger: 0.05,
+    ease: 'power2.out'
+  })
+
+  gsap.to(image, {
+    scale: 1.06,
+    duration: 0.5,
+    ease: 'power2.out'
+  })
+}
+
+/* =========================
+   🔁 HOVER LEAVE
+========================= */
+function onLeave(e) {
+  const slide = e.currentTarget
+
+  const card = slide.querySelector('.content-card')
+  const items = slide.querySelectorAll('.stagger-item')
+  const image = slide.querySelector('img')
+
+  gsap.killTweensOf([card, items, image])
+
+  gsap.to(card, {
+    opacity: 0,
+    y: 10,
+    duration: 0.2
+  })
+
+  gsap.to(items, {
+    opacity: 0,
+    y: 10,
+    duration: 0.2,
+    stagger: 0.03
+  })
+
+  gsap.to(image, {
+    scale: 1,
+    duration: 0.4
+  })
+}
+</script>
+
+<template>
+  <div
+    ref="container"
+    class="flex h-screen items-center overflow-hidden"
+  >
+    <div
+      ref="track"
+      class="flex h-auto w-max xl:h-[80vh]"
     >
-      <swiper-slide
+      <div
         v-for="item in slides"
         :key="item._key"
-        class="slide-item overflow-hidden will-change-transform"
+        class="slide-item relative w-[85vw] shrink-0 px-4"
+        @mouseenter="onEnter"
+        @mouseleave="onLeave"
       >
-        <div class="relative h-full">
-          <!-- Overlay radial -->
-          <div
-            class="overlay pointer-events-none absolute inset-0 z-10 scale-110 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.35)_0%,rgba(0,0,0,0.6)_40%,rgba(0,0,0,0.9)_100%)] opacity-0 dark:bg-[radial-gradient(circle_at_center,rgba(231,225,177,0.25)_0%,rgba(231,225,177,0.15)_40%,rgba(231,225,177,0.85)_100%)]"
-          ></div>
-
-          <!-- Imagen -->
+        <div class="relative h-full w-full overflow-hidden rounded-2xl">
           <ElementsMediaImageItem
-            class="parallax-image block h-full w-full object-cover will-change-transform"
             :src="item.image.asset._ref"
             :alt="item.image.alt"
             :modifiers="{
@@ -51,17 +167,13 @@ const props = defineProps({
               hotspot: item.image.hotspot,
               q: 80
             }"
-            sizes="xs:100vw"
             fit="cover"
           />
 
-          <!-- Contenido -->
-          <div
-            class="parallax-content absolute inset-x-0 bottom-0 z-20 w-full p-4 will-change-transform lg:top-0 lg:bottom-auto lg:left-0 lg:h-full lg:w-1/3 lg:p-6"
-          >
-            <div
-              class="rounded-2xl bg-white/70 p-5 shadow-2xl backdrop-blur-md lg:mt-6"
-            >
+          <div class="overlay"></div>
+
+          <div class="content">
+            <div class="content-card">
               <h2 class="stagger-item text-lg font-semibold">
                 {{ item.content.title }}
               </h2>
@@ -74,27 +186,55 @@ const props = defineProps({
                 v-if="item.link"
                 class="stagger-item mt-3"
               >
-                <ElementsTextLink
-                  :link="item.link"
-                  variant="primary"
-                />
+                <ElementsTextLink :link="item.link" />
               </div>
             </div>
           </div>
         </div>
-      </swiper-slide>
-    </swiper-container>
+      </div>
+    </div>
   </div>
 </template>
-<style lang="css">
-swiper-slide {
+
+<style scoped>
+.slide-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: center;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 0, 0, 0.2),
+    rgba(0, 0, 0, 0.6)
+  );
+  pointer-events: none;
+}
+
+.content {
+  position: absolute;
+  inset: 0;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 18px;
-  height: 80vh;
-  font-size: 4rem;
-  font-weight: bold;
-  font-family: 'Roboto', sans-serif;
+  align-items: flex-end;
+  padding: 1rem;
+}
+
+/* 🔥 IMPORTANTE: estado base limpio */
+.content-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(14px);
+  border-radius: 16px;
+  padding: 1rem;
+
+  opacity: 0;
+  transform: translate3d(0, 10px, 0);
+}
+
+.slide-item {
+  will-change: transform;
 }
 </style>

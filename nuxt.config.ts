@@ -9,8 +9,8 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/i18n',
     '@nuxt/icon',
-    '@pinia/nuxt'
-    // 'nuxt-swiper'
+    '@pinia/nuxt',
+    'nuxt-swiper'
   ],
   css: ['./app/assets/css/main.css'],
   app: {
