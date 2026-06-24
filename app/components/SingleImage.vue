@@ -1,19 +1,18 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import gsap from 'gsap'
+
 const props = defineProps({
   image: Object,
   content: Object
 })
+
 const sliderRef = ref(null)
 
 let cleanupFns = []
 
 onMounted(async () => {
   await nextTick()
-
-  const canHover = window.matchMedia('(hover: hover)').matches
-  if (!canHover) return
 
   const slideEls = sliderRef.value?.querySelectorAll('.single-image')
   if (!slideEls) return
@@ -22,103 +21,101 @@ onMounted(async () => {
     const overlay = slide.querySelector('.overlay')
     const content = slide.querySelector('.parallax-content')
     const image = slide.querySelector('.parallax-image')
-    const items = slide.querySelectorAll('.stagger-item')
 
-    // 🔥 estado inicial
-    gsap.set(content, { opacity: 0, y: 40 })
-    gsap.set(items, { opacity: 0, y: 20 })
+    // estado inicial overlay
     gsap.set(overlay, {
-      opacity: 0,
-      scale: 1.15
-      // transformOrigin: 'center'
-    })
-
-    const tl = gsap.timeline({
-      paused: true,
-      defaults: { ease: 'power3.out' }
-    })
-
-    tl.to(overlay, {
       opacity: 1,
-      scale: 1,
-      duration: 0.4
+      '--x': '50%',
+      '--y': '50%'
     })
-      .to(
-        image,
-        {
-          scale: 1.08,
-          y: -15,
-          duration: 0.8
-        },
-        0
-      )
-      .to(
-        content,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.4
-        },
-        '-=0.3'
-      )
-      .to(
-        items,
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.08,
-          duration: 0.35
-        },
-        '-=0.2'
-      )
 
-    // 🎯 hover handlers
-    const onEnter = () => tl.play()
-    const onLeave = () => tl.reverse()
+    const canHover = window.matchMedia('(hover: hover)').matches
 
-    // 🎯 mouse parallax
+    let tl = null
+
+    if (canHover) {
+      tl = gsap.timeline({
+        paused: true,
+        defaults: { ease: 'power3.out' }
+      })
+
+      tl.to(image, {
+        scale: 1.08,
+        y: -15,
+        duration: 0.8
+      })
+    }
+
+    // 🎯 mouse move (PARALLAX + GRADIENTE)
     const onMove = (e) => {
       const rect = slide.getBoundingClientRect()
 
-      const x = (e.clientX - rect.left) / rect.width - 0.5
-      const y = (e.clientY - rect.top) / rect.height - 0.5
+      const x = (e.clientX - rect.left) / rect.width
+      const y = (e.clientY - rect.top) / rect.height
 
+      const xCentered = x - 0.5
+      const yCentered = y - 0.5
+
+      // PARALLAX
       gsap.to(image, {
-        x: x * 15,
-        y: y * 15,
+        x: xCentered * 15,
+        y: yCentered * 15,
         duration: 0.5,
         overwrite: 'auto'
       })
 
       gsap.to(content, {
-        x: x * 30,
-        y: y * 30,
+        x: xCentered * 30,
+        y: yCentered * 30,
         duration: 0.5,
         overwrite: 'auto'
       })
+
+      // 🔥 GRADIENTE DINÁMICO
+      gsap.to(overlay, {
+        '--x': `${x * 100}%`,
+        '--y': `${y * 100}%`,
+        duration: 0.3,
+        ease: 'power2.out'
+      })
     }
 
-    const onLeaveMove = () => {
+    const onEnter = () => {
+      if (tl) tl.play()
+    }
+
+    const onLeave = () => {
+      if (tl) tl.reverse()
+
+      // reset parallax
       gsap.to([image, content], {
         x: 0,
         y: 0,
         duration: 0.6,
-        ease: 'power3.out',
-        overwrite: 'auto'
+        ease: 'power3.out'
+      })
+
+      // reset gradiente al centro
+      gsap.to(overlay, {
+        '--x': '50%',
+        '--y': '50%',
+        duration: 0.6,
+        ease: 'power3.out'
       })
     }
 
-    slide.addEventListener('mouseenter', onEnter)
-    slide.addEventListener('mouseleave', onLeave)
     slide.addEventListener('mousemove', onMove)
-    slide.addEventListener('mouseleave', onLeaveMove)
+
+    if (canHover) {
+      slide.addEventListener('mouseenter', onEnter)
+      slide.addEventListener('mouseleave', onLeave)
+    }
 
     cleanupFns.push(() => {
+      slide.removeEventListener('mousemove', onMove)
       slide.removeEventListener('mouseenter', onEnter)
       slide.removeEventListener('mouseleave', onLeave)
-      slide.removeEventListener('mousemove', onMove)
-      slide.removeEventListener('mouseleave', onLeaveMove)
-      tl.kill()
+      if (tl) tl.kill()
     })
   })
 })
@@ -133,42 +130,37 @@ onBeforeUnmount(() => {
     class="overflow-hidden will-change-transform"
     ref="sliderRef"
   >
-    <div class="single-image relative h-full">
-      <!-- Overlay radial -->
-      <div
-        class="overlay pointer-events-none absolute inset-0 z-10 scale-110 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.35)_0%,rgba(0,0,0,0.6)_40%,rgba(0,0,0,0.9)_100%)] opacity-0 dark:bg-[radial-gradient(circle_at_center,rgba(231,225,177,0.25)_0%,rgba(231,225,177,0.15)_40%,rgba(231,225,177,0.85)_100%)]"
-      ></div>
+    <div class="single-image relative h-full overflow-hidden">
+      <!-- 🔥 OVERLAY DINÁMICO -->
+      <div class="overlay pointer-events-none absolute inset-0 z-10"></div>
+
       <!-- Imagen -->
       <ElementsMediaImageItem
         class="parallax-image block h-full w-full object-cover will-change-transform"
         :src="image.asset._ref"
         :alt="image.alt"
-        :modifiers="{
-          crop: image.crop,
-          hotspot: image.hotspot,
-          q: 80
-        }"
         sizes="xs:100vw"
         fit="cover"
       />
-      <!-- Contenido -->
+
+      <!-- Contenido SIEMPRE visible -->
       <div
-        class="parallax-content absolute inset-x-0 bottom-0 z-20 w-full p-4 will-change-transform lg:top-0 lg:bottom-auto lg:left-0 lg:h-full lg:w-1/3 lg:p-6"
+        class="parallax-content absolute inset-x-0 bottom-0 z-20 w-full p-4 will-change-transform lg:top-0 lg:left-0 lg:h-full lg:w-1/3 lg:p-6"
       >
         <div
-          class="dark:bg-beige/70 rounded-2xl bg-white/70 p-5 shadow-sm backdrop-blur-md lg:mt-6"
+          class="dark:bg-beige/70 rounded-2xl bg-white/70 p-5 shadow-sm backdrop-blur-md"
         >
-          <h2 class="stagger-item text-lg font-semibold">
+          <h2 class="text-lg font-semibold">
             {{ content.title }}
           </h2>
 
-          <p class="stagger-item mt-2 text-sm">
+          <p class="mt-2 text-sm">
             {{ content.text }}
           </p>
 
           <div
             v-if="content.link"
-            class="stagger-item mt-3"
+            class="mt-3"
           >
             <ElementsTextLink
               :link="content.link.link"
@@ -181,4 +173,18 @@ onBeforeUnmount(() => {
   </div>
 </template>
 
-<style></style>
+<style scoped>
+.overlay {
+  --x: 50%;
+  --y: 50%;
+
+  background: radial-gradient(
+    circle at var(--x) var(--y),
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.35) 35%,
+    rgba(0, 0, 0, 0.85) 100%
+  );
+
+  transition: background 0.2s ease;
+}
+</style>

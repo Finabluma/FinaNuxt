@@ -9,8 +9,8 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/i18n',
     '@nuxt/icon',
-    '@pinia/nuxt',
-    'nuxt-swiper'
+    '@pinia/nuxt'
+    // 'nuxt-swiper'
   ],
   css: ['./app/assets/css/main.css'],
   app: {
@@ -71,32 +71,8 @@ export default defineNuxtConfig({
   // This makes Tailwind work with Vite
   vite: {
     optimizeDeps: {
-      include: [
-        '@vue/devtools-core',
-        '@vue/devtools-kit',
-        'react-compiler-runtime',
-        'react',
-        'react-dom',
-        'react-compiler-runtime', // CJS
-        'gsap',
-        'gsap/TextPlugin',
-        'swiper/element/bundle'
-      ]
+      include: ['@vue/devtools-core', '@vue/devtools-kit', 'gsap']
     },
-    plugins: [tailwindcss()],
-    build: {
-      minify: 'terser',
-      cssCodeSplit: true,
-      terserOptions: {
-        compress: {
-          drop_console: true,
-          drop_debugger: true,
-          pure_funcs: ['console.info', 'console.debug', 'console.warn']
-        },
-        format: {
-          comments: false
-        }
-      }
-    }
+    plugins: [tailwindcss()]
   }
 })

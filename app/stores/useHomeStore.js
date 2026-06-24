@@ -8,12 +8,11 @@ export const useHomeStore = defineStore('home', {
   }),
 
   getters: {
-    sections: (state) => state.data?.sections || [],
-    blocks: (state) => state.data?.blockComponents || []
+    sections: (state) => state.data?.sections || []
   },
 
   actions: {
-    async fetchHome(lang = 'es') {
+    async fetchHome(lang) {
       const sanity = useSanity()
 
       this.loading = true
@@ -25,8 +24,7 @@ export const useHomeStore = defineStore('home', {
         // 👇 opcional: normalizar datos
         this.data = {
           ...result,
-          sections: result?.sections || [],
-          blockComponents: result?.blockComponents || []
+          sections: result?.sections || []
         }
       } catch (err) {
         this.error = err

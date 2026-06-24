@@ -42,9 +42,9 @@
     @apply font-cameo text-orange dark:text-navy-three hover:text-navy-three dark:hover:text-navy-one underline underline-offset-2 transition-all hover:no-underline;
   }
 
-  #main {
+  /* #main {
     @apply p-8 sm:p-20;
-  }
+  } */
 
   #main .component + .component {
     @apply mt-10;

@@ -30,7 +30,7 @@ watch(() => props.textSequence, runAnimation, { deep: true })
 </script>
 
 <template>
-  <h1 class="f-body-lg px-10 py-36">
+  <h1 class="f-hero font-logic px-10 py-36">
     <span>{{ prefix }}</span>
     <span
       ref="el"

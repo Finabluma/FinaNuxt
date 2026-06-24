@@ -1,140 +1,11 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
-import gsap from 'gsap'
-
 const props = defineProps({
   slides: Array,
   title: String
 })
-
-const sliderRef = ref(null)
-
-let cleanupFns = []
-
-onMounted(async () => {
-  await nextTick()
-
-  const canHover = window.matchMedia('(hover: hover)').matches
-  if (!canHover) return
-
-  const slideEls = sliderRef.value?.querySelectorAll('.slide-item')
-  if (!slideEls) return
-
-  slideEls.forEach((slide) => {
-    const overlay = slide.querySelector('.overlay')
-    const content = slide.querySelector('.parallax-content')
-    const image = slide.querySelector('.parallax-image')
-    const items = slide.querySelectorAll('.stagger-item')
-
-    // 🔥 estado inicial
-    gsap.set(content, { opacity: 0, y: 40 })
-    gsap.set(items, { opacity: 0, y: 20 })
-    gsap.set(overlay, {
-      opacity: 0,
-      scale: 1.15
-      // transformOrigin: 'center'
-    })
-
-    const tl = gsap.timeline({
-      paused: true,
-      defaults: { ease: 'power3.out' }
-    })
-
-    tl.to(overlay, {
-      opacity: 1,
-      scale: 1,
-      duration: 0.4
-    })
-      .to(
-        image,
-        {
-          scale: 1.08,
-          y: -15,
-          duration: 0.8
-        },
-        0
-      )
-      .to(
-        content,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.4
-        },
-        '-=0.3'
-      )
-      .to(
-        items,
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.08,
-          duration: 0.35
-        },
-        '-=0.2'
-      )
-
-    // 🎯 hover handlers
-    const onEnter = () => tl.play()
-    const onLeave = () => tl.reverse()
-
-    // 🎯 mouse parallax
-    const onMove = (e) => {
-      const rect = slide.getBoundingClientRect()
-
-      const x = (e.clientX - rect.left) / rect.width - 0.5
-      const y = (e.clientY - rect.top) / rect.height - 0.5
-
-      gsap.to(image, {
-        x: x * 15,
-        y: y * 15,
-        duration: 0.5,
-        overwrite: 'auto'
-      })
-
-      gsap.to(content, {
-        x: x * 30,
-        y: y * 30,
-        duration: 0.5,
-        overwrite: 'auto'
-      })
-    }
-
-    const onLeaveMove = () => {
-      gsap.to([image, content], {
-        x: 0,
-        y: 0,
-        duration: 0.6,
-        ease: 'power3.out',
-        overwrite: 'auto'
-      })
-    }
-
-    slide.addEventListener('mouseenter', onEnter)
-    slide.addEventListener('mouseleave', onLeave)
-    slide.addEventListener('mousemove', onMove)
-    slide.addEventListener('mouseleave', onLeaveMove)
-
-    cleanupFns.push(() => {
-      slide.removeEventListener('mouseenter', onEnter)
-      slide.removeEventListener('mouseleave', onLeave)
-      slide.removeEventListener('mousemove', onMove)
-      slide.removeEventListener('mouseleave', onLeaveMove)
-      tl.kill()
-    })
-  })
-})
-
-onBeforeUnmount(() => {
-  cleanupFns.forEach((fn) => fn())
-  cleanupFns = []
-})
 </script>
 <template>
-  <div
-    ref="sliderRef"
-    class="slide"
-  >
+  <div class="slide">
     <h2 class="mb-4 text-xl font-bold">
       {{ title }}
     </h2>
@@ -150,6 +21,10 @@ onBeforeUnmount(() => {
       :speed="900"
       :breakpoints="{
         320: {
+          slidesPerView: 1,
+          spaceBetween: 10
+        },
+        1024: {
           slidesPerView: 1,
           spaceBetween: 10
         }
@@ -211,3 +86,15 @@ onBeforeUnmount(() => {
     </swiper-container>
   </div>
 </template>
+<style lang="css">
+swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  height: 80vh;
+  font-size: 4rem;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+}
+</style>
